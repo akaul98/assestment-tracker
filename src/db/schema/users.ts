@@ -1,5 +1,4 @@
 import { integer, pgTable, varchar } from "drizzle-orm/pg-core";
-import { de } from "zod/locales";
 
 export const usersTable = pgTable("users", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
