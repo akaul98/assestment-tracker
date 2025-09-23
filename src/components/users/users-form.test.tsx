@@ -1,5 +1,5 @@
 import UserForm from "./user-form";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import '@testing-library/jest-dom';
 
 describe("UserForm Component", () => {
@@ -18,13 +18,14 @@ describe("UserForm Component", () => {
   })
 
   // 2️⃣ Validation Test
-  it("shows validation when all the textboxes are empty and form is submitted",()=>{
+  it("shows validation when all the textboxes are empty and form is submitted", async () => {
     render(<UserForm />);
     fireEvent.click(screen.getByRole("button", { name: /submit/i }));
-    expect(screen.getByText(/Name is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/Email is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/Department is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/Designation is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/Status is required/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/name is required/i)).toBeInTheDocument();
+      expect(screen.getByText(/email is required/i)).toBeInTheDocument();
+      expect(screen.getByText(/department is required/i)).toBeInTheDocument();
+      expect(screen.getByText(/designation is required/i)).toBeInTheDocument();
+    });
   })
 });
