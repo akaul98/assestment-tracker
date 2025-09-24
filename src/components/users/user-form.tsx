@@ -40,6 +40,7 @@ export default function UserForm() {
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="max-w-md mx-auto p-4 bg-white shadow-md rounded"
+      noValidate
     >
       <h2 className="text-2xl font-bold mb-4">User Form</h2>
 
