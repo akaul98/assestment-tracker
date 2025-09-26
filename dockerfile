@@ -1,37 +1,33 @@
-# --- Build & Test Stage ---
-FROM oven/bun:1 AS builder
+# Stage 1: Build stage
+FROM oven/bun:1-alpine AS builder
 
-# Set working directory
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Copy dependency files
-# The * makes bun.lockb optional (avoids COPY error if not committed yet)
+# Copy package.json and bun.lockb to leverage Docker's build cache
 COPY package.json bun.lockb* ./
 
 # Install dependencies
-RUN bun install
+RUN bun install --frozen-lockfile
 
-# Copy the rest of the source code
+# Copy the rest of the application files
 COPY . .
 
+# Build your application if necessary (e.g., if you have a build step)
+# RUN bun run build
 
-# Build Next.js app
-RUN bun run build
+# Stage 2: Production stage
+FROM oven/bun:1-alpine AS runner
 
+WORKDIR /usr/src/app
 
-# --- Production Stage ---
-FROM oven/bun:1 AS runner
+# Copy only necessary files from the builder stage
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+COPY --from=builder /usr/src/app/package.json ./package.json
+COPY --from=builder /usr/src/app/bun.lockb* ./bun.lockb*
+COPY --from=builder /usr/src/app/src ./src
 
-WORKDIR /app
-
-# Copy only necessary files from builder
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/bun.lockb* ./
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-
-# Expose Next.js default port
+# Expose the port your Bun application listens on
 EXPOSE 3000
 
+# Command to run your Bun application
 CMD ["bun", "run", "start"]
