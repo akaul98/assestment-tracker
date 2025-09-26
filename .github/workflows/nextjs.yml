@@ -26,10 +26,10 @@ jobs:
         run: bun install
 
       - name: Run tests with Jest
-        run: bun test --ci --runInBand
+        run: bun run test
 
       - name: Build Next.js
-        run: bunx next build
+        run: bun run build
 
       - name: Archive production-ready files
         run: zip -r release.zip . -x "*.git*"
