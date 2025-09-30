@@ -62,8 +62,8 @@ const data = {
       active: true,
     },
     {
-      title: "Courses",
-      url: "courses",
+      title: "Training",
+      url: "training",
       icon: Book,
       active: true,
     },
