@@ -1,8 +1,9 @@
-import { DataTable } from "@/components/data-table"
-import { columns } from "../../app/(application)/users/columns"
+"use client"
+import { columns as defaultColumns } from "../../app/(application)/users/columns"
 import { CustomeDataTable } from "@/components/custom-data-table"
+import { useState } from "react"
 
-export type user={
+export type User={
     id:number,
     name:string,
     email:string,
@@ -10,7 +11,7 @@ export type user={
     department:string,
     status:string, 
 }
-export const userData:user[]=[
+export const initialUserData:User[]=[
   {"id":1,"name":"John Doe","email":"john.doe@example.com","designation":"Software Engineer","department":"Engineering","status":"Active"},
   {"id":2,"name":"Jane Smith","email":"jane.smith@example.com","designation":"Product Manager","department":"Product","status":"Inactive"},
   {"id":3,"name":"Alice Johnson","email":"alice.johnson@example.com","designation":"UX Designer","department":"Design","status":"Active"},
@@ -34,10 +35,19 @@ export const userData:user[]=[
 ]
 
 export function UsersDataTable(){
+    const [data, setData] = useState<User[]>(initialUserData);
+      const handleStatusChange = (id: number, checked: boolean) => {
+    setData(prev =>
+      prev.map(user =>
+        user.id === id ? { ...user, status: checked ? "Active" : "Inactive" } : user
+      )
+    )
+  }
+    const columns = defaultColumns(handleStatusChange)
     return (
         <div>
             <CustomeDataTable
-            data={userData}
+            data={data}
             columns={columns}
             />
         </div>
