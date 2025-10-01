@@ -1,5 +1,6 @@
+import { user } from "@/components/users/users-data-table"
 import { ColumnDef } from "@tanstack/react-table"
-import {user} from "../../../components/custom-data-table"
+
 export const columns: ColumnDef<user, any>[] = [
     {
         accessorKey:"id",
