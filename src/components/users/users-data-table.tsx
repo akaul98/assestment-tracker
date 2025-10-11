@@ -1,6 +1,6 @@
 "use client"
 import { columns as defaultColumns } from "../../app/(application)/users/columns"
-import { CustomeDataTable } from "@/components/custom-data-table"
+import { CustomDataTable } from "@/components/custom-data-table"
 import { useState } from "react"
 
 export type User={
@@ -46,7 +46,7 @@ export function UsersDataTable(){
     const columns = defaultColumns(handleStatusChange)
     return (
         <div>
-            <CustomeDataTable
+            <CustomDataTable
             data={data}
             columns={columns}
             />
