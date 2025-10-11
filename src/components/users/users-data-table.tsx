@@ -49,6 +49,7 @@ export function UsersDataTable(){
             <CustomDataTable
             data={data}
             columns={columns}
+            buttonLabel="Add User"
             />
         </div>
     )
